@@ -35,7 +35,7 @@ body {
   background-color: #f3f4f6;
   color: #374151;
   line-height: 1.6;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */ /* Temporarily removed to test sidebar toggle accessibility */
 }
 
 .container {
@@ -139,7 +139,7 @@ body {
 .main-content {
   flex: 1;
   margin-left: var(--sidebar-width);
-  transition: var(--transition);
+  transition: margin-left var(--transition);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -680,6 +680,254 @@ select {
   background: #e2e8f0;
   transform: translateY(-2px);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%); /* Hide sidebar off-screen by default */
+    z-index: 200; /* Ensure sidebar is on top when open */
+    box-shadow: var(--shadow-lg); /* Add more prominent shadow when it overlays */
+  }
+
+  .sidebar.sidebar-open { /* Class to be toggled by JS */
+    transform: translateX(0);
+    width: var(--sidebar-width); /* Ensure it takes its defined width when open */
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .sidebar-toggle {
+    display: block !important; /* Show the toggle button, !important to override existing display:none */
+    position: fixed; /* Keep it accessible */
+    top: 15px;
+    left: 15px;
+    z-index: 210; /* Ensure it's above other elements, including closed sidebar */
+    background-color: var(--light-color);
+    padding: 0.5rem;
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow);
+  }
+  
+  .sidebar-toggle i {
+    font-size: 1.5rem; /* Ensure icon is large enough */
+  }
+
+  /* Optional: Style for an overlay when sidebar is open on mobile */
+  .overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 150; /* Below sidebar (z-index: 200), above main content */
+  }
+
+  .overlay.active {
+    display: block; /* Show when sidebar is open */
+  }
+
+  /* Responsive Card Layout for Tables */
+  .table-container {
+    margin-bottom: 1rem;
+  }
+
+  /* General Table Reset for Card Layout */
+  #studentsTable, 
+  #studentsTable thead, 
+  #studentsTable tbody, 
+  #studentsTable th, 
+  #studentsTable td, 
+  #studentsTable tr {
+    display: block;
+  }
+
+  /* Hide table headers (they will be re-added as labels) */
+  #studentsTable thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  #studentsTable tr {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 1rem;
+    background-color: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  #studentsTable td {
+    /* Behave like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%; /* Space for the label */
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-right: 0.75rem;
+    text-align: right; /* Align content to the right, labels to the left */
+    white-space: normal; /* Allow text to wrap */
+  }
+
+  #studentsTable td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 0.75rem;
+    left: 0.75rem;
+    width: 45%; /* Width of the label */
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+
+  /* Label content for each cell in #studentsTable */
+  #studentsTable td:nth-of-type(1):before { content: "Student ID"; }
+  #studentsTable td:nth-of-type(2):before { content: "Name"; }
+  #studentsTable td:nth-of-type(3):before { content: "Email"; }
+  #studentsTable td:nth-of-type(4):before { content: "Phone"; }
+  #studentsTable td:nth-of-type(5):before { content: "Actions"; }
+  
+  /* Adjustments for the Actions column if it contains buttons */
+  #studentsTable td:nth-of-type(5) {
+    text-align: right; /* Or 'left' or 'center' if preferred for buttons */
+  }
+  #studentsTable td:nth-of-type(5) .btn {
+    margin: 0.25rem; /* Add some spacing if multiple buttons */
+  }
+
+  /* Remove bottom border from last cell in a card */
+  #studentsTable td:last-child {
+    border-bottom: 0;
+  }
+
+  /* Card Layout for Subjects Table */
+  #subjectsTable, 
+  #subjectsTable thead, 
+  #subjectsTable tbody, 
+  #subjectsTable th, 
+  #subjectsTable td, 
+  #subjectsTable tr {
+    display: block;
+  }
+  #subjectsTable thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  #subjectsTable tr {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 1rem;
+    background-color: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+  #subjectsTable td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-right: 0.75rem;
+    text-align: right;
+    white-space: normal;
+  }
+  #subjectsTable td:before {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  #subjectsTable td:nth-of-type(1):before { content: "Code"; }
+  #subjectsTable td:nth-of-type(2):before { content: "Name"; }
+  #subjectsTable td:nth-of-type(3):before { content: "Credits"; }
+  #subjectsTable td:nth-of-type(4):before { content: "Description"; }
+  #subjectsTable td:nth-of-type(5):before { content: "Actions"; }
+  #subjectsTable td:nth-of-type(5) {
+    text-align: right;
+  }
+  #subjectsTable td:nth-of-type(5) .btn {
+    margin: 0.25rem;
+  }
+  #subjectsTable td:last-child {
+    border-bottom: 0;
+  }
+
+  /* Card Layout for Grades Table */
+  #gradesTable, 
+  #gradesTable thead, 
+  #gradesTable tbody, 
+  #gradesTable th, 
+  #gradesTable td, 
+  #gradesTable tr {
+    display: block;
+  }
+  #gradesTable thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  #gradesTable tr {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 1rem;
+    background-color: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+  #gradesTable td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-right: 0.75rem;
+    text-align: right;
+    white-space: normal;
+  }
+  #gradesTable td:before {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  #gradesTable td:nth-of-type(1):before { content: "Student"; }
+  #gradesTable td:nth-of-type(2):before { content: "Subject"; }
+  #gradesTable td:nth-of-type(3):before { content: "Type"; }
+  #gradesTable td:nth-of-type(4):before { content: "Title"; }
+  #gradesTable td:nth-of-type(5):before { content: "Score"; }
+  #gradesTable td:nth-of-type(6):before { content: "Max Score"; }
+  #gradesTable td:nth-of-type(7):before { content: "Percentage"; }
+  #gradesTable td:nth-of-type(8):before { content: "Date"; }
+  #gradesTable td:nth-of-type(9):before { content: "Actions"; }
+  #gradesTable td:nth-of-type(9) {
+    text-align: right;
+  }
+  #gradesTable td:nth-of-type(9) .btn {
+    margin: 0.25rem;
+  }
+  #gradesTable td:last-child {
+    border-bottom: 0;
+  }
+}
+
 
 .btn-danger {
   background: linear-gradient(135deg, var(--danger-color) 0%, #dc2626 100%);
