@@ -49,10 +49,13 @@ body {
   background: white;
   height: 100vh;
   position: fixed;
+  left: 0;
+  top: 0;
   box-shadow: var(--shadow);
   z-index: 100;
   transition: var(--transition);
   border-right: 1px solid rgba(229, 231, 235, 0.5);
+  overflow-y: auto; /* Allow scrolling within sidebar if needed */
 }
 
 .sidebar-header {
@@ -137,7 +140,10 @@ body {
   flex: 1;
   margin-left: var(--sidebar-width);
   transition: var(--transition);
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 header {
@@ -147,11 +153,15 @@ header {
   align-items: center;
   justify-content: space-between;
   box-shadow: var(--shadow-sm);
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 99;
+  right: 0;
+  left: var(--sidebar-width);
+  z-index: 95;
+  background-color: white;
   border-bottom: 1px solid rgba(229, 231, 235, 0.5);
   transition: all 0.3s ease;
+  width: calc(100% - var(--sidebar-width));
 }
 
 /* Section-specific header styling */
@@ -259,6 +269,8 @@ header {
 
 main {
   padding: 2rem;
+  margin-top: var(--header-height);
+  flex: 1;
 }
 
 /* Section Styles */

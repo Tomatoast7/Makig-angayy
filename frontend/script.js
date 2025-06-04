@@ -26,7 +26,6 @@ class StudentManagementSystem {
     document.getElementById("settingsNav").addEventListener("click", () => this.showSection("settings"))
     
     // Mobile sidebar toggle
-    document.getElementById("sidebarToggle").addEventListener("click", () => this.toggleSidebar())
 
     // Student events
     document.getElementById("addStudentBtn").addEventListener("click", () => this.showStudentModal())
@@ -60,6 +59,26 @@ class StudentManagementSystem {
       if (e.target.classList.contains("modal")) {
         e.target.style.display = "none"
       }
+    })
+    
+    // Header scroll behavior
+    let lastScrollTop = 0;
+    window.addEventListener("scroll", () => {
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const header = document.querySelector('header');
+      
+      // Scrolling down - hide header
+      if (currentScrollTop > lastScrollTop && currentScrollTop > 60) {
+        header.style.transform = 'translateY(-100%)';
+        header.style.transition = 'transform 0.3s ease-in-out';
+      } 
+      // Scrolling up - show header
+      else {
+        header.style.transform = 'translateY(0)';
+        header.style.transition = 'transform 0.3s ease-in-out';
+      }
+      
+      lastScrollTop = currentScrollTop;
     })
   }
 
