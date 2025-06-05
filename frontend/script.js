@@ -130,7 +130,19 @@ class StudentManagementSystem {
       })
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        let errorData = { message: `HTTP error! status: ${response.status}` };
+        try {
+          // Try to parse the error response body
+          const errorBody = await response.json();
+          errorData = { ...errorData, ...errorBody };
+          console.error("Server error details:", errorBody); // Log the detailed error
+        } catch (e) {
+          // If response is not JSON or another error occurs
+          const errorText = await response.text();
+          console.error("Server error text:", errorText); // Log raw text
+          errorData.details = errorText;
+        }
+        throw new Error(JSON.stringify(errorData)); // Throw an error with more details
       }
 
       // For DELETE requests or 204 No Content responses, return an empty object
