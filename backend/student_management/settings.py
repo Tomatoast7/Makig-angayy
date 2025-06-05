@@ -5,9 +5,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-your-secret-key-here'
 
-DEBUG = True
+import os
+from dotenv import load_dotenv
 
-ALLOWED_HOSTS = ['*']
+load_dotenv()
+
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
+ALLOWED_HOSTS = ['*']  # Update this in production with your actual domain
+
+# Database
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT', '5432'),
+    }
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
