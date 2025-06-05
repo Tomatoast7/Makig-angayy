@@ -57,7 +57,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'student_management.wsgi.application'  # Replace with your project name
+WSGI_APPLICATION = 'your_project_name.wsgi.application'  # Replace with your project name
 
 # Database
 # Use PostgreSQL in production, SQLite in development
