@@ -1,10 +1,7 @@
-Django>=4.2,<5.0
+Django==4.2.7
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
 dj-database-url==2.1.0
 whitenoise==6.6.0
 psycopg2-binary==2.9.9
 gunicorn==21.2.0
-
-# Add your other dependencies here
-# For example:
-# Pillow==10.0.1
-# django-rest-framework==3.14.0
